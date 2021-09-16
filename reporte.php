@@ -33,10 +33,12 @@
 
   <?php
   include_once 'includes/funciones/conexionBD.php';
-  $query = "SELECT idVehiculo, tipoVehiculo, fechaEntrada, fechaSalida, fallas, servicio, numeroSerie, nombre, precio FROM VEHICULOS 
+  $query = "SELECT idVehiculo, tipoVehiculo, fechaEntrada, fechaSalida, fallas, servicio, numeroSerie, REFACCIONES.nombre, precio, OPERARIOS.idEmpleado, OPERARIOS.nombre as 'nombreOperario' FROM VEHICULOS 
   INNER JOIN SERVICIOS ON VEHICULOS.idServicio = SERVICIOS.idServicio 
   INNER JOIN SERVICIOS_REFACCIONES ON SERVICIOS.idServicio = SERVICIOS_REFACCIONES.idServicio
-  INNER JOIN REFACCIONES ON SERVICIOS_REFACCIONES.idRefaccion = REFACCIONES.numeroSerie";
+  INNER JOIN REFACCIONES ON SERVICIOS_REFACCIONES.idRefaccion = REFACCIONES.numeroSerie
+  INNER JOIN OPERARIOS_SERVICIOS ON SERVICIOS.idServicio = OPERARIOS_SERVICIOS.idServicio
+  INNER JOIN OPERARIOS ON OPERARIOS_SERVICIOS.idEmpleado = OPERARIOS.idEmpleado";
   $servicios = array();
 
   $res = mysqli_query($con, $query);
@@ -48,9 +50,13 @@
     $servicios[$element['idVehiculo']]['fechaSalida'] = $element['fechaSalida'];
     $servicios[$element['idVehiculo']]['fallas'] = $element['fallas'];
     $servicios[$element['idVehiculo']]['servicio'] = $element['servicio'];
+    // Refacciones 
     $servicios[$element['idVehiculo']]['refacciones'][$element['numeroSerie']]['numeroSerie'] = $element['numeroSerie'];
     $servicios[$element['idVehiculo']]['refacciones'][$element['numeroSerie']]['nombre'] = $element['nombre'];
     $servicios[$element['idVehiculo']]['refacciones'][$element['numeroSerie']]['precio'] = $element['precio'];
+    // Operarios
+    $servicios[$element['idVehiculo']]['operarios'][$element['idEmpleado']]['idEmpleado'] = $element['idEmpleado'];
+    $servicios[$element['idVehiculo']]['operarios'][$element['idEmpleado']]['nombreOperario'] = $element['nombreOperario'];
   }
   ?>
 
@@ -58,7 +64,7 @@
     <h2 class="py-4">Servicios</h2>
 
     <div class="table">
-      <div class="row head font-weight-bold">
+      <div class="row head font-weight-bold bg-dark text-white">
         <div class="col-md-1 text-center">
           <p>#</p>
         </div>
@@ -109,6 +115,7 @@
         </div>
 
         <div class="pl-5 collapse subtable" id="refaccion<?= $servicio['idVehiculo'] ?>">
+          <!-- Refacciones -->
           <div class="row head font-weight-bold">
             <div class="col-md-2">
               <p># Serie</p>
@@ -133,6 +140,27 @@
               </div>
             </div>
           <?php endforeach; ?>
+          <!-- Fin Refacciones -->
+          <!-- Operarios -->
+          <div class="row head font-weight-bold">
+            <div class="col-md-2">
+              <p># Operario</p>
+            </div>
+            <div class="col-md-2">
+              <p>Nombre</p>
+            </div>
+          </div>
+          <?php foreach ($servicio['operarios'] as $operario) : ?>
+            <div class="row">
+              <div class="col-md-2">
+                <p><?= $operario['idEmpleado'] ?></p>
+              </div>
+              <div class="col-md-2">
+                <p><?= $operario['nombreOperario'] ?></p>
+              </div>
+            </div>
+          <?php endforeach; ?>
+          <!-- Fin Operarios -->
         </div>
       <?php endforeach; ?>
 
