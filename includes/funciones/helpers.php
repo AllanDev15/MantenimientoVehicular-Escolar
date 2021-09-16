@@ -15,3 +15,17 @@ function diferencia($fechaFin)
     return 'alert alert-success';
   }
 }
+
+function estatusOperarios($estatus)
+{
+  $bgColor = '';
+  if ($estatus == 'disponible') {
+    $bgColor = 'alert alert-success';
+  } else if ($estatus == 'no disponible') {
+    $bgColor = 'alert alert-danger';
+  } else if ($estatus == 'en servicio') {
+    $bgColor = 'alert alert-warning';
+  }
+
+  return $bgColor;
+}
