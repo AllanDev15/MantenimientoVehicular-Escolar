@@ -1,13 +1,13 @@
 <?php
 
 $operacion = $_POST['operacion'];
+include_once 'includes/funciones/conexionBD.php';
 
 if ($operacion == 'login') {
 
   $empleado = $_POST[''];
 
   try {
-    include_once 'includes/funciones/conexionBD.php';
     $stmt = $con->prepare("SELECT idEmpleado FROM OPERARIOS WHERE idEmpleado = ?");
     $stmt->bind_param('i', $empleado);
     $stmt->execute();
@@ -57,7 +57,6 @@ if ($operacion == 'login') {
   $existencias = $_POST[''];
 
   try {
-    include_once 'includes/funciones/conexionBD.php';
     // Insertar Servicio
     $stmt = $con->prepare("INSERT INTO SERVICIOS(servicio, duracionEstimada) VALUES(?, ?)");
     $stmt->bind_param('si', $servicio, $duracionEstimada);
@@ -165,4 +164,40 @@ if ($operacion == 'login') {
       'error' => $e->getMessage(),
     );
   }
+} else if ($operacion == 'registrarEntrega') {
+  $idVehiculo = $_POST['idVehiculo'];
+  $idEmpleado = $_POST['idEmpleado'];
+  $fechaSalida = $_POST['fechaSalida'];
+
+  try {
+    $stmt = $con->prepare("UPDATE VEHICULOS SET fechaSalida = ?, idEntrego = ? WHERE idVehiculo = ?");
+    $stmt->bind_param('sii', $fechaSalida, $idEmpleado, $idVehiculo);
+    $stmt->execute();
+    if ($stmt->affected_rows <= 0) {
+      $respuesta = array(
+        'respuesta' => 'error'
+      );
+      echo json_encode($respuesta);
+      exit;
+    }
+    $stmt->close();
+    $stmt = $con->prepare("UPDATE OPERARIOS SET estatus = 'disponible' WHERE idEmpleado = ?");
+    $stmt->bind_param('i', $idEmpleado);
+    $stmt->execute();
+    if ($stmt->affected_rows > 0) {
+      $respuesta = array(
+        'respuesta' => 'exito'
+      );
+    } else {
+      $respuesta = array(
+        'respuesta' => 'error'
+      );
+    }
+  } catch (Exception $e) {
+    $respuesta = array(
+      'error' => $e->getMessage()
+    );
+  }
+
+  echo json_encode($respuesta);
 }
