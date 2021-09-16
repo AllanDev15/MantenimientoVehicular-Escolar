@@ -5,20 +5,22 @@ include_once 'includes/funciones/conexionBD.php';
 
 if ($operacion == 'login') {
 
-  $empleado = $_POST[''];
+  $empleado = $_POST['idEmpleado'];
 
   try {
-    $stmt = $con->prepare("SELECT idEmpleado FROM OPERARIOS WHERE idEmpleado = ?");
+    $stmt = $con->prepare("SELECT idEmpleado, nombre FROM OPERARIOS WHERE idEmpleado = ?");
     $stmt->bind_param('i', $empleado);
     $stmt->execute();
-    $stmt->bind_result($id_empleado);
+    $stmt->bind_result($id_empleado, $nombreEmpleado);
     if ($stmt->affected_rows) {
       $existe = $stmt->fetch();
       if ($existe) {
         session_start();
         $_SESSION['usuario'] = $id_empleado;
+        $_SESSION['nombre'] = $nombreEmpleado;
         $respuesta = array(
           'respuesta' => 'exito',
+          'nombre' => $nombreEmpleado
         );
       } else {
         $respuesta = array(
