@@ -2,8 +2,24 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnRegistrarServicio = document.querySelector('#btnRegistrarServicio');
 
   const servicios = {
-    'Cambio de aceite': {
+    'Cambio de embrague': {
+      estimado: 3,
+      operarios: 1,
+    },
+    'Cambio de frenos y amortiguadores': {
+      estimado: 4,
+      operarios: 2,
+    },
+    'Cambio de llanta': {
       estimado: 1,
+      operarios: 1,
+    },
+    'Reparación de frenos': {
+      estimado: 2,
+      operarios: 1,
+    },
+    'Reparación del modulo de aceite': {
+      estimado: 3,
       operarios: 1,
     },
   };

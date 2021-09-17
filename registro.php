@@ -37,7 +37,7 @@
   </nav>
   <div class="container">
     <h2 class="text-center py-4">Registro de Servicio</h2>
-    <form id="registroServicio" action="pruebas.php" method="post">
+    <form id="registroServicio" method="post">
       <legend> Ingrese datos solicitados</legend>
       <div class="form-group col-md-6 p-0">
         <label class="">Tipo de vehiculo:</label>
@@ -57,6 +57,10 @@
         <label class="">Servicio a Realizar:</label>
         <select class="form-control" name="servicio" id="servicios">
           <option value="Cambio de embrague">Cambio de embrague</option>
+          <option value="Cambio de frenos y amortiguadores">Cambio de frenos y amortiguadores</option>
+          <option value="Cambio de llanta">Cambio de llanta</option>
+          <option value="Reparación de frenos">Reparación de frenos</option>
+          <option value="Reparación del modulo de aceite">Reparación del modulo de aceite</option>
         </select>
       </div>
 
