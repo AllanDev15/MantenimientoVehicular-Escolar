@@ -13,7 +13,28 @@
 </head>
 
 <body class="bg-light">
-
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top d-flex justify-content-between">
+    <a class="navbar-brand" href="index.php">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/5/52/Uefa_champions_league_logo.png" width="30" height="30" class="d-inline-block align-top" alt="Logo UEFA">
+      Plazco
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="registro.php">Registrar Servicio</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="operario.php">Servicio activo</a>
+        </li>
+      </ul>
+      <div class="navbar-text">
+        <a href="login.php?cerrar_sesion=true">Cerrar Sesión</a>
+      </div>
+    </div>
+  </nav>
   <div class="container">
     <h2 class="text-center py-4">Registro de Servicio</h2>
     <form id="registroServicio" action="pruebas.php" method="post">
@@ -35,7 +56,7 @@
       <div class="form-group col-md-6 p-0">
         <label class="">Servicio a Realizar:</label>
         <select class="form-control" name="servicio" id="servicios">
-          <option value="Cambio de aceite">Cambio de aceite</option>
+          <option value="Cambio de embrague">Cambio de embrague</option>
         </select>
       </div>
 
@@ -45,10 +66,9 @@
 
       <?php $i = 0;
       while ($refaccion = $res->fetch_assoc()) : ?>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="checkbox" value="<?= $refaccion['nombre'] ?>" id="ref<?= $i ?>" name="refaccion[]">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="<?= $refaccion['numeroSerie'] ?>" id="ref<?= $i ?>" name="refaccion[]">
           <label class="form-check-label" for="ref<?= $i ?>"><?= $refaccion['nombre'] ?></label>
-          <input type="hidden" name="serie[]" value="<?= $refaccion['numeroSerie'] ?>">
         </div>
       <?php
         $i++;
