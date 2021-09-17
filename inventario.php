@@ -1,3 +1,4 @@
+<?php require_once 'includes/funciones/sesiones.php' ?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -17,6 +18,32 @@
   $query = "SELECT * FROM REFACCIONES";
   $res = mysqli_query($con, $query);
   ?>
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top d-flex justify-content-between">
+    <a class="navbar-brand" href="index.php">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/5/52/Uefa_champions_league_logo.png" width="30" height="30" class="d-inline-block align-top" alt="Logo UEFA">
+      Plazco
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="reporte.php">Reporte de Servicios</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="inventario.php">Inventario de Refacciones</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="operarios.php">Estatus de Operarios</a>
+        </li>
+      </ul>
+      <div class="navbar-text">
+        <a href="login.php?cerrar_sesion=true">Cerrar Sesión</a>
+      </div>
+    </div>
+  </nav>
 
   <div class="container bg-white">
     <h2 class="py-4">Inventario de Refacciones</h2>

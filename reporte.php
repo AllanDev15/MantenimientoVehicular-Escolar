@@ -1,3 +1,4 @@
+<?php require_once 'includes/funciones/sesiones.php' ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,18 +34,20 @@
 
   <?php
   include_once 'includes/funciones/conexionBD.php';
-  $query = "SELECT idVehiculo, tipoVehiculo, fechaEntrada, fechaSalida, fallas, servicio, numeroSerie, REFACCIONES.nombre, precio, OPERARIOS.idEmpleado, OPERARIOS.nombre as 'nombreOperario' FROM VEHICULOS 
+  $query = "SELECT idVehiculo, OPERARIOS.nombre as 'recibido', tipoVehiculo, fechaEntrada, fechaSalida, fallas, servicio, numeroSerie, REFACCIONES.nombre, precio, OPERARIOS.idEmpleado, OPERARIOS.nombre as 'nombreOperario' FROM VEHICULOS 
+  INNER JOIN OPERARIOS as Receptores ON idRecibido = Receptores.idEmpleado
   INNER JOIN SERVICIOS ON VEHICULOS.idServicio = SERVICIOS.idServicio 
   INNER JOIN SERVICIOS_REFACCIONES ON SERVICIOS.idServicio = SERVICIOS_REFACCIONES.idServicio
   INNER JOIN REFACCIONES ON SERVICIOS_REFACCIONES.idRefaccion = REFACCIONES.numeroSerie
   INNER JOIN OPERARIOS_SERVICIOS ON SERVICIOS.idServicio = OPERARIOS_SERVICIOS.idServicio
-  INNER JOIN OPERARIOS ON OPERARIOS_SERVICIOS.idEmpleado = OPERARIOS.idEmpleado";
+  INNER JOIN OPERARIOS ON OPERARIOS_SERVICIOS.idEmpleado = OPERARIOS.idEmpleado;";
   $servicios = array();
 
   $res = mysqli_query($con, $query);
 
   while ($element = $res->fetch_assoc()) {
     $servicios[$element['idVehiculo']]['idVehiculo'] = $element['idVehiculo'];
+    $servicios[$element['idVehiculo']]['recibido'] = $element['recibido'];
     $servicios[$element['idVehiculo']]['tipoVehiculo'] = $element['tipoVehiculo'];
     $servicios[$element['idVehiculo']]['fechaEntrada'] = $element['fechaEntrada'];
     $servicios[$element['idVehiculo']]['fechaSalida'] = $element['fechaSalida'];
@@ -60,6 +63,32 @@
   }
   ?>
 
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top d-flex justify-content-between">
+    <a class="navbar-brand" href="index.php">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/5/52/Uefa_champions_league_logo.png" width="30" height="30" class="d-inline-block align-top" alt="Logo UEFA">
+      Plazco
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="reporte.php">Reporte de Servicios</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="inventario.php">Inventario de Refacciones</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="operarios.php">Estatus de Operarios</a>
+        </li>
+      </ul>
+      <div class="navbar-text">
+        <a href="login.php?cerrar_sesion=true">Cerrar Sesión</a>
+      </div>
+    </div>
+  </nav>
+
   <div class="container bg-white">
     <h2 class="py-4">Servicios</h2>
 
@@ -70,6 +99,9 @@
         </div>
         <div class="col-md">
           <p>Fecha de Entrada</p>
+        </div>
+        <div class="col-md">
+          <p>Recibio</p>
         </div>
         <div class="col-md">
           <p>Vehiculo</p>
@@ -89,13 +121,29 @@
       </div>
 
       <?php foreach ($servicios as $servicio) :
-        require_once 'includes/funciones/helpers.php' ?>
-        <div class="row <?= diferencia($servicio['fechaSalida']) ?>">
+        // require_once 'includes/funciones/helpers.php';
+        require_once 'includes/funciones/conexionBD.php';
+        $query = "SELECT idEntrego FROM VEHICULOS WHERE idVehiculo = {$servicio['idVehiculo']}";
+        $res = mysqli_query($con, $query);
+        $id = $res->fetch_assoc();
+
+        $bgColor = 'alert';
+
+        if (isset($id['idEntrego'])) {
+          $bgColor = 'alert alert-success';
+        } else {
+          $bgColor = 'alert alert-warning';
+        }
+      ?>
+        <div class="row <?= $bgColor ?>">
           <div class="col-md-1 font-weight-bold">
             <p><?= $servicio['idVehiculo'] ?></p>
           </div>
           <div class="col-md">
             <p><?= $servicio['fechaEntrada'] ?></p>
+          </div>
+          <div class="col-md">
+            <p><?= $servicio['recibido'] ?></p>
           </div>
           <div class="col-md">
             <p><?= $servicio['tipoVehiculo'] ?></p>

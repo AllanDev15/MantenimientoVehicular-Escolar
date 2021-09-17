@@ -1,3 +1,4 @@
+<?php require_once 'includes/funciones/sesiones.php' ?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -13,8 +14,7 @@
 
 <body class="bg-light">
   <?php
-  // $idEmpleado = $_SESSION['usuario'];
-  $idEmpleado = 15;
+  $idEmpleado = $_SESSION['usuario'];
   include_once 'includes/funciones/conexionBD.php';
   $query = "SELECT idVehiculo, servicio, fallas, tipoVehiculo, fechaEntrada, duracionEstimada, fechaSalida, numeroSerie, REFACCIONES.nombre, proveedor
   FROM VEHICULOS
@@ -48,8 +48,31 @@
   }
   ?>
 
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top d-flex justify-content-between">
+    <a class="navbar-brand" href="index.php">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/5/52/Uefa_champions_league_logo.png" width="30" height="30" class="d-inline-block align-top" alt="Logo UEFA">
+      Plazco
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="registro.php">Registrar Servicio</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="operario.php">Servicio activo</a>
+        </li>
+      </ul>
+      <div class="navbar-text">
+        <a href="login.php?cerrar_sesion=true">Cerrar Sesión</a>
+      </div>
+    </div>
+  </nav>
 
   <div class="container bg-white">
+    <h2 class="py-4">Servicio</h2>
     <?php if ($rows == 'si') : ?>
       <form id="servicioOperario" action="pruebas.php" method="POST">
         <div class="form-row">
