@@ -30,7 +30,9 @@
           <a class="nav-link" href="operario.php">Servicio activo</a>
         </li>
       </ul>
-      <div class="navbar-text">
+      <div class="navbar-text d-flex">
+        <p class="mr-3"><?= $_SESSION['nombre'] ?></p>
+        <p class="mr-5"><?= $_SESSION['usuario'] ?></p>
         <a href="login.php?cerrar_sesion=true">Cerrar Sesión</a>
       </div>
     </div>
