@@ -39,24 +39,44 @@ if ($operacion == 'login') {
   echo json_encode($respuesta);
 } else if ($operacion == 'registrar') {
   // Datos para tabla Vehiculos
-  $idRecibido = $_POST[''];
-  $tipoVehiculo = $_POST[''];
-  $fechaEntrada = $_POST[''];
-  $empleado = $_POST[''];
-  $fallas = $_POST[''];
+  $idRecibido = $_POST['idEmpleado'];
+  $tipoVehiculo = $_POST['tipoVehiculo'];
+  $fechaEntrada = $_POST['fechaEntrada'];
+  $empleado = $_POST['empleado'];
+  $fallas = $_POST['fallas'];
 
   // Datos para tabla Servicios
-  $servicio = $_POST[''];
-  $duracionEstimada = $_POST[''];
+  $servicio = $_POST['servicio'];
+  $duracionEstimada = $_POST['duracionEstimada'];
   $idServicio;
 
   // Operarios
-  $numOperarios = $_POST[''];
+  $numOperarios = $_POST['numOperarios'];
   $operarios = array();
 
   // Datos de las refacciones
-  $numerosSerie = $_POST[''];
-  $existencias = $_POST[''];
+
+
+
+
+
+  $usaRefaccion = 'no';
+  if (isset($_POST['refaccion'])) {
+    $refacciones = $_POST['refaccion'];
+    $series = $_POST['serie'];
+    $final = array();
+
+    $usaRefaccion = 'si';
+    $i = 0;
+    foreach ($refacciones as $re) {
+      $final[$i]['numeroSerie'] = $series[$i];
+      $i++;
+    }
+  } else {
+    $usaRefaccion = 'no';
+  }
+
+
 
   try {
     // Insertar Servicio
@@ -74,34 +94,37 @@ if ($operacion == 'login') {
     }
     $stmt->close();
 
-    // Insertar Servicios_Refacciones
-    $stmt = $con->prepare("INSERT INTO SERVICIOS_REFACCIONES(idServicio, idRefaccion) VALUES(?, ?)");
-    $stmt->bind_param('is', $idServicio, $numerosSerie);
-    $stmt->execute();
-    if ($stmt->affected_rows <= 0) {
-      $respuesta = array(
-        'respuesta' => 'error'
-      );
-      echo json_encode($respuesta);
-      exit();
+    if ($usaRefaccion == 'si') {
+      foreach ($final as $ref) {
+        // Insertar Servicios_Refacciones
+        $stmt = $con->prepare("INSERT INTO SERVICIOS_REFACCIONES(idServicio, idRefaccion) VALUES(?, ?)");
+        $stmt->bind_param('is', $idServicio, $ref['numeroSerie']);
+        $stmt->execute();
+        if ($stmt->affected_rows <= 0) {
+          $respuesta = array(
+            'respuesta' => 'error'
+          );
+          echo json_encode($respuesta);
+          exit();
+        }
+
+        $stmt->close();
+
+        // Restar existencias a la refaccion utilizada
+        $stmt = $con->prepare("UPDATE REFACCIONES SET existencias=existencias-1 WHERE numeroSerie = ?");
+        $stmt->bind_param('s', $ref['numeroSerie']);
+        $stmt->execute();
+        if ($stmt->affected_rows <= 0) {
+          $respuesta = array(
+            'respuesta' => 'error'
+          );
+          echo json_encode($respuesta);
+          exit();
+        }
+
+        $stmt->close();
+      }
     }
-
-    $stmt->close();
-
-    // Restar existencias a la refaccion utilizada
-    $newExistencia = $existencias - 1;
-    $stmt = $con->prepare("UPDATE REFACCIONES SET existencias=? WHERE numeroSerie = ?");
-    $stmt->bind_param('is', $newExistencia, $numerosSerie);
-    $stmt->execute();
-    if ($stmt->affected_rows <= 0) {
-      $respuesta = array(
-        'respuesta' => 'error'
-      );
-      echo json_encode($respuesta);
-      exit();
-    }
-
-    $stmt->close();
 
     // Seleccionar operarios disponibles
     $query = "SELECT idEmpleado FROM OPERARIOS WHERE estatus='disponible'";
@@ -165,6 +188,7 @@ if ($operacion == 'login') {
     $respuesta = array(
       'error' => $e->getMessage(),
     );
+    echo json_encode($respuesta);
   }
 } else if ($operacion == 'registrarEntrega') {
   $idVehiculo = $_POST['idVehiculo'];
