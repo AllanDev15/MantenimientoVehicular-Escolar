@@ -34,7 +34,7 @@
 
   <?php
   include_once 'includes/funciones/conexionBD.php';
-  $query = "SELECT idVehiculo, OPERARIOS.nombre as 'recibido', tipoVehiculo, fechaEntrada, fechaSalida, fallas, servicio, numeroSerie, REFACCIONES.nombre, precio, OPERARIOS.idEmpleado, OPERARIOS.nombre as 'nombreOperario' FROM VEHICULOS 
+  $query = "SELECT idVehiculo, Receptores.nombre as 'recibido', tipoVehiculo, fechaEntrada, fechaSalida, fallas, servicio, numeroSerie, REFACCIONES.nombre, precio, OPERARIOS.idEmpleado, OPERARIOS.nombre as 'nombreOperario' FROM VEHICULOS 
   INNER JOIN OPERARIOS as Receptores ON idRecibido = Receptores.idEmpleado
   INNER JOIN SERVICIOS ON VEHICULOS.idServicio = SERVICIOS.idServicio 
   INNER JOIN SERVICIOS_REFACCIONES ON SERVICIOS.idServicio = SERVICIOS_REFACCIONES.idServicio
