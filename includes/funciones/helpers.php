@@ -1,19 +1,24 @@
 <?php
 
-function diferencia($fechaFin)
+function estatusServicio($id)
 {
-  $fin = strtotime($fechaFin);
-  $hoy = strtotime(date('Y-m-d'));
-  $dif = $hoy - $fin;
-  $dias = $dif / 86400;
+  try {
+    require_once 'includes/funciones/conexionBD.php';
+    $query = "SELECT idEntrego FROM VEHICULOS WHERE idVehiculo = {$id}";
+    $res = mysqli_query($con, $query);
+    $id = $res->fetch_assoc();
 
-  if ($dias == 0) {
-    return 'alert alert-warning';
-  } else if ($dias < 0) {
-    return 'alert alert-danger';
-  } else if ($dias > 0) {
-    return 'alert alert-success';
+    $bgColor = 'alert alert-error';
+
+    if (isset($id['idEntrego'])) {
+      $bgColor = 'alert alert-success';
+    } else {
+      $bgColor = 'alert alert-warning';
+    }
+  } catch (Exception $e) {
+    $bgColor = $e->getMessage();
   }
+  return $bgColor;
 }
 
 function estatusOperarios($estatus)
