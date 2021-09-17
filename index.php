@@ -6,9 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <!-- Estilos -->
-    <link rel="stylesheet" href="css/styles.css">
     <title>Mantenimiento</title>
+    <style>
+         body {
+      background-image: url(https://ssl.sitew.org/images/blog/articles/fonds/e11.jpg);
+      background-size: cover;
+      background-position: center;
+
+    }
+    </style>
   </head>
   <body>
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
@@ -51,15 +57,13 @@
           aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand" href="index.php">
+        <a class="navbar-brand" href="index.html">
           <img src="https://upload.wikimedia.org/wikipedia/commons/5/52/Uefa_champions_league_logo.png" width="30" height="30" class="d-inline-block align-top" alt="Logo UEFA">
           Equipo 5
         </a>
         <div class=" collapse navbar-collapse " id="navbarTogglerDemo01">
           <div class=" nav nav-tabs navbar-nav mr-auto ml-auto" role="tablist">
-            <a class="nav-item nav-link active" href="#inicio" id="inicio-tab" data-toggle="tab">Refacciones</a>
-            <a class="nav-item nav-link" href="#vehiculos" id="vehiculos-tab" data-toggle="tab">Vehiculos</a>
-            <a class="nav-item nav-link" href="#servicios" id="servicios-tab" data-toggle="tab">Servicios</a>
+            <a class="nav-item nav-link active" href="#administrador" id="administrador-tab" data-toggle="tab">Administrador</a>
             <a class="nav-item nav-link" href="#operarios" id="operarios-tab" data-toggle="tab">Operarios</a>
           </div>
           <div class="d-flex flex-row" jusitify-content-center>
@@ -71,60 +75,97 @@
       </nav>
 
       <div class="tab-content">
-        <div class="container mt-3 tab-pane active" id="inicio">
-            <div class="container"> 
-                <form action="">
-                <h1 style="color: ghostwhite;">Control de Inventarios</h1>
-                <input type="text" id="numeroSerie" placeholder="Número de Serie" class="form-control my-3">
-                <input type="text" id="nombre"placeholder="Nombre de Refacción" class="form-control my-3">
-                <input type="text" id="proveedor" placeholder="Proveedor" class="form-control my-3">
-                <input type="number" id="precio" placeholder="Precio" class="form-control my-3">
-                <input type="number" id="existencias" placeholder="Existencias" class="form-control my-3">
-                <input type="submit" value="enviar" class="btn btn-danger"/>
-                </form>
-            </div>
+        <div class="container mt-3 tab-pane active" id="administrador">
+
+          <div class="container mt-5">
+            <label for="opciones" class="text-white"> Selecciona el proceso a realizar: </label>
+          <select id="opciones">
+            <option value="A"> Registro de Refacciones </option>
+            <option value="B"> Registro de Operarios </option>
+            <option value="C"> Historial de Servicios </option>
+            <option value="D"> Inventario de Refacciones </option>
+            <option value="E"> Estatus de operarios </option>
+
+          </select><br><br>
+          
+          <p></p>
+          <div class="info"></div>
+          
+          
+          <script type = "text/javascript">
+      const seleccionar = document.querySelector('select');
+      const parrafo = document.querySelector('p');
+      const div = document.querySelector('.info');
+      seleccionar.onchange = establecerClima;
+      function establecerClima() {
+        const eleccion = seleccionar.value;
+        if (eleccion === 'A') {
+          
+        div.innerHTML = '<form action="" method="post"><fieldset><legend class="text-white"> Ingrese datos solicitados</legend><p><label  class="text-white" >Número de Serie:<input type="text" name="numeroSerie" class="form-control my-3"/></label> </p><p><label class="text-white">Nombre de la refacción:<input type="text" name="nombre" class="form-control my-3"/></label> </p><p><label class="text-white">Proveedor: <input type="text" name="proveedor" class="form-control my-3"/></label></p> <p><label class="text-white">Precio: <input type="number" name="numero" class="form-control my-3"/></label></p> <p><input type="submit" value="enviar" class="btn btn-success"/></p></fieldset></form>';
+          div.innerHTML;
+       } else if (eleccion === 'B') {
+        
+        div.innerHTML = '<form action="" method="post"><fieldset><legend class="text-white"> Ingrese datos solicitados</legend><p><label class="text-white">Id Empleado:<input type="number" name="idEmpleado" class="form-control my-3"/></label> </p><p><label class="text-white">Nombre del Operario: <input type="text" name="nombreOperario" class="form-control my-3"/></label> </p><p><label class="text-white">Estatus del Operario: <div class="input-group mb-3"><div class="input-group-prepend"><label class="input-group-text" for="inputGroupSelect01">Opciones</label></div><select class="custom-select" id="inputGroupSelect01"><option selected>Seleccionar...</option><option value="1">En servicio</option><option value="2">Disponible</option><option value="3">Libre</option></select></div> </label></p><p><input type="submit" value="enviar" class="btn btn-success"/></p></fieldset></form>';
+          div.innerHTML;
+       } else if (eleccion === 'C') {
+          
+        div.innerHTML = '<form action="" method="post"><fieldset><legend class="text-white"> Ingrese datos solicitados</legend> </fieldset></form>';
+          div.innerHTML;
+        } else if (eleccion === 'D') {
+          
+          div.innerHTML = '<form action="" method="post"><fieldset><legend class="text-white"> Ingrese datos solicitados</legend> </fieldset></form>';
+            div.innerHTML;
+        }else if (eleccion === 'E') {
+          
+          div.innerHTML = '<form action="" method="post"><fieldset><legend class="text-white"> Ingrese datos solicitados</legend> </fieldset></form>';
+            div.innerHTML;
+          }  
+      else {
+          parrafo.textContent = 'NO PUSO NADA';
+        }
+      }
+      </script>
+      
+          </div>
+
         </div>
           
-        <div class="container mt-3 tab-pane fade" id="vehiculos">
-            <div class="container">
-                <form action="">
-                    <input type="number" id="idVehiculo" placeholder="Id Vehiculo" class="form-control my-3">
-                    <input type="number" id="idRecibo" placeholder="Id Recibo" class="form-control my-3">
-                    <input type="text" id="tipoVehiculo" placeholder="Tipo de Vehiculo" class="form-control my-3">
-                    <input type="datetime-local" id="fechaEntrada" class="form-control my-3">
-                    <input type="text" id="empleado" placeholder="Empleado" class="form-control my-3">
-                    <input type="text" id="fallas" placeholder="Fallas del Vehiculo" class="form-control my-3">
-                    <input type="datetime-local" id="fechaSalida" class="form-control my-3">
-                    <input type="number" id="idEntrego" placeholder="Id Entrego" class="form-control my-3">
-                    <input type="number" id="idServicio" placeholder="Id Servicio" class="form-control my-3">
-                    <input type="submit" value="enviar" class="btn btn-danger"/>
-                </form>
-            </div>
-        </div>
-
-        <div class="container mt-3 tab-pane fade" id="servicios">
-            <div class="container">
-                <form action="">
-                    <input type="number" id="idServicio" placeholder="Id Servicio" class="form-control my-3">
-                    <input type="text" id="servicio" placeholder="Nombre del Servicio" class="form-control my-3">
-                    <input type="time" id="duracionEstimada" placeholder="Duracion Estimada" class="form-control my-3">
-                    <input type="time" id="duracionReal" placeholder="Duracion Real" class="form-control my-3">
-                    <input type="submit" value="enviar" class="btn btn-danger"/>
-                </form>
-            </div>
-        </div>
-
         <div class="container mt-3 tab-pane fade" id="operarios">
-            <div class="container">
-                <form action="">
-                <input type="number" id="idEmpleado" placeholder="Id Empleado" class="form-control my-3">
-                <input type="text" id="nombreOperario" placeholder="Nombre del Operario" class="form-control my-3">
-                <input type="text" id="estatusOperario" placeholder="Estatus del Operario" class="form-control my-3">
-                <input type="submit" value="enviar" class="btn btn-danger"/>
-            </form>
+          <div class="container mt-5">
+            <label for="opciones2" class="text-white"> Selecciona el proceso a realizar: </label>
+          <select id="opciones2">
+            <option value="G"> Registro de Vehiculos</option>
+            <option value="K"> Visualización Servicios</option>
+          </select><br><br>
+          
+          <p></p>
+          <div class="info2"></div>
+          
+          
+      <script type = "text/javascript">
+      const seleccionar2 = document.querySelector("#opciones2");
+      const parrafo2 = document.querySelector('p');
+      const div2 = document.querySelector('.info2');
+      seleccionar2.onchange = establecerOper;
+      function establecerOper() {
+        const eleccion2 = seleccionar2.value;
+        if (eleccion2 === 'G') {
+          
+        div2.innerHTML = '<form action="" method="post"><fieldset><legend class="text-white"> Ingrese datos solicitados</legend><p><label class="text-white">Tipo de vehiculo: <input type="text" name="tipoVehiculo" class="form-control my-3"></label> </p><p><label class="text-white">Fecha de entrada:<input type="datetime-local" name="fechaEntrada" class="form-control my-3"/></label> </p><p><label class="text-white">Empleado que entrega: <input type="text" name="empleado" class="form-control my-3"/></label></p> <p><label class="text-white">Fallas: <input type="text" name="fallas" class="form-control my-3"/></label></p> <p><label class="text-white">Servicio a Realizar: <input type="text" name="servicio" class="form-control my-3"/></label></p> <p><label class="text-white"> Refacciones a utilizar: <br> <input type="checkbox" id="refaccion1" name="refaccion1" value="refaccion1"> <label for="refaccion1"> Refacción 1 </label><br> <input type="checkbox" id="refaccion2" name="refaccion2" value="refaccion2"> <label for="refaccion2"> Refacción 2 </label><br> <input type="checkbox" id="refaccion3" name="refaccion3" value="refaccion3"> <label for="refaccion3"> Refacción 3 </label> </label></p> <p><input type="submit" value="enviar" class="btn btn-success"/></p></fieldset></form>';
+          div2.innerHTML;
+       } else if (eleccion2 === 'K') {
+          
+        div2.innerHTML = '<form action="" method="post"><fieldset><legend class="text-white"> Ingrese datos solicitados</legend></fieldset></form>';
+          div2.innerHTML;
+       } 
+      else {
+          parrafo2.textContent = 'NO PUSO NADA';
+        }
+      }
+      </script>
+      
             </div>
         </div>
-
 
       </div>
       
