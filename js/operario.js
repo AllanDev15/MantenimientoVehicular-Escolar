@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const id = document.querySelector('#inputIdVehiculo');
 
     const fecha = new Date();
-    const fechaHoy = `${fecha.getFullYear()}-${fecha.getMonth()}-${fecha.getDay()}`;
+    const fechaHoy = `${fecha.getFullYear()}-${fecha.getMonth() + 1}-${fecha.getDate()}`;
     const data = new FormData(form);
 
     data.append('idVehiculo', id.value);
